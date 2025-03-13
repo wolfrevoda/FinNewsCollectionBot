@@ -11,7 +11,7 @@ import os
 # OpenAI API Key 和 Server酱SendKey
 openai_api_key = os.getenv("OPENAI_API_KEY")
 server_chan_key = os.getenv("SERVER_CHAN_KEY")
-openai_client = OpenAI(api_key=openai_api_key)
+openai_client = OpenAI(api_key=openai_api_key, base_url="https://api.deepseek.com/v1")
 
 # RSS源地址列表
 rss_feeds = {
