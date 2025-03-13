@@ -18,6 +18,9 @@ rss_feeds = {
     "💲 华尔街见闻":{
         "华尔街见闻":"https://dedicated.wallstreetcn.com/rss.xml",      
     },
+    "💻 36氪":{
+        "36氪":"https://36kr.com/feed",   
+    },
     "🇨🇳 中国经济": {
         "东方财富":"http://rss.eastmoney.com/rss_partener.xml",
         "百度股票焦点":"http://news.baidu.com/n?cmd=1&class=stock&tn=rss&sub=0",
