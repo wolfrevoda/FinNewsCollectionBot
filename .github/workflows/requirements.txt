@@ -1,0 +1,8 @@
+openai
+feedparser
+requests
+newspaper
+datetime
+time
+pytz
+os
