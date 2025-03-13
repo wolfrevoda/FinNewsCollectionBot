@@ -32,7 +32,6 @@ rss_feeds = {
         "国家统计局-数据解读":"https://www.stats.gov.cn/sj/sjjd/rss.xml",
     },
       "🇺🇸 美国经济": {
-        "CNN Money" :"http://rss.cnn.com/rss/money_topstories.rss",
         "MarketWatch美股": "https://www.marketwatch.com/rss/topstories",
         "ZeroHedge华尔街新闻": "https://feeds.feedburner.com/zerohedge/feed",
         "ETF Trends": "https://www.etftrends.com/feed/",
