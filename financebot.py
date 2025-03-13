@@ -20,21 +20,23 @@ rss_feeds = {
     },
     "💻 36氪":{
         "36氪":"https://36kr.com/feed",   
-    },
+        },
     "🇨🇳 中国经济": {
+        "香港經濟日報":"https://www.hket.com/rss/china",
         "东方财富":"http://rss.eastmoney.com/rss_partener.xml",
         "百度股票焦点":"http://news.baidu.com/n?cmd=1&class=stock&tn=rss&sub=0",
         "中新网":"https://www.chinanews.com.cn/rss/finance.xml",
         "国家统计局-最新发布":"https://www.stats.gov.cn/sj/zxfb/rss.xml",
-        "国家统计局-数据解读":"https://www.stats.gov.cn/sj/sjjd/rss.xml",
     },
       "🇺🇸 美国经济": {
+        "华尔街日报 - 经济":"https://feeds.content.dowjones.io/public/rss/WSJcomUSBusiness",
+        "华尔街日报 - 市场":"https://feeds.content.dowjones.io/public/rss/RSSMarketsMain",
         "MarketWatch美股": "https://www.marketwatch.com/rss/topstories",
         "ZeroHedge华尔街新闻": "https://feeds.feedburner.com/zerohedge/feed",
         "ETF Trends": "https://www.etftrends.com/feed/",
     },
     "🌍 世界经济": {
-        "华尔街日报":"https://cn.wsj.com/zh-hans/rss",
+        "华尔街日报 - 经济":"https://feeds.content.dowjones.io/public/rss/socialeconomyfeed",
         "BBC全球经济": "http://feeds.bbci.co.uk/news/business/rss.xml",
     },
 }
@@ -43,15 +45,14 @@ rss_feeds = {
 def today_date():
     return datetime.now(pytz.timezone("Asia/Shanghai")).date()
 
-
-# 爬取网页正文
+# 爬取网页正文 (用于 AI 分析，但不展示)
 def fetch_article_text(url):
     try:
         print(f"📰 正在爬取文章内容: {url}")
         article = Article(url)
         article.download()
         article.parse()
-        text = article.text[:1500]
+        text = article.text[:1500]  # 限制长度，防止超出 API 输入限制
         if not text:
             print(f"⚠️ 文章内容为空: {url}")
         return text
@@ -80,10 +81,10 @@ def fetch_feed_with_retry(url, retries=3, delay=5):
     print(f"❌ 跳过 {url}, 尝试 {retries} 次后仍失败。")
     return None
 
-# 获取RSS内容并爬取文章正文
+# 获取RSS内容（爬取正文但不展示）
 def fetch_rss_articles(rss_feeds, max_articles=10):
     news_data = {}
-    today = today_date()
+    analysis_text = ""  # 用于 AI 分析的内容
 
     for category, sources in rss_feeds.items():
         category_content = ""
@@ -102,25 +103,29 @@ def fetch_rss_articles(rss_feeds, max_articles=10):
                 if not link:
                     print(f"⚠️ {source} 的新闻 '{title}' 没有链接，跳过")
                     continue
-
+                
+                # 爬取正文（但不展示）
                 article_text = fetch_article_text(link)
-                print(f"🔹 {source} - {title} 获取成功")
+                
+                # 添加到 AI 分析文本
+                analysis_text += f"【{title}】\n{article_text}\n\n"
 
-                articles.append(f"- {title}\n  {article_text}\n  [查看原文]({link})\n")
+                print(f"🔹 {source} - {title} 获取成功")
+                articles.append(f"- [{title}]({link})")  # 仅展示标题和链接
             
             if articles:
                 category_content += f"### {source}\n" + "\n".join(articles) + "\n\n"
         
         news_data[category] = category_content
     
-    return news_data
+    return news_data, analysis_text  # 返回爬取的新闻标题/链接 & 用于 AI 分析的正文内容
 
-# AI生成内容摘要
+# AI 生成内容摘要（基于爬取的正文）
 def summarize(text):
     completion = openai_client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="deepseek-chat",
         messages=[
-            {"role": "system", "content": "你是一名专业的财经新闻分析师，请根据以下新闻内容，提炼出最核心的要点，提供一份1000字以内的中文清晰摘要。请确保总结精准、逻辑清晰，并突出财经领域的核心观点和关键数据，避免冗余信息。"},
+            {"role": "system", "content": "你是一名专业的财经新闻分析师，请根据以下新闻内容，提炼出最核心的财经要点，提供一份2000字以内的清晰摘要。请确保总结精准、逻辑清晰，并突出财经领域的核心趋势。"},
             {"role": "user", "content": text}
         ]
     )
@@ -137,13 +142,19 @@ def send_to_wechat(title, content):
 # 主程序
 if __name__ == "__main__":
     today_str = today_date().strftime("%Y-%m-%d")
-    #每个网站获取最多5篇文章
-    articles = fetch_rss_articles(rss_feeds, max_articles = 5 ) 
+    
+    # 每个网站获取最多 5 篇文章
+    articles, analysis_text = fetch_rss_articles(rss_feeds, max_articles=5) 
 
+    # AI 生成摘要
+    summary = summarize(analysis_text)
+
+    # 生成最终消息（仅展示标题和链接）
     final_summary = f"📅 **{today_str} 财经新闻摘要**\n\n"
+    final_summary += f"✍️ **今日分析总结：**\n{summary}\n\n---\n\n"
+
     for category, content in articles.items():
         if content.strip():
-            summary = summarize(content)
-            final_summary += f"## {category}\n✍️ **今日总结：** {summary}\n\n\n---\n\n{content}\n\n"
+            final_summary += f"## {category}\n{content}\n\n"
     
     send_to_wechat(title=f"📌 {today_str} 财经新闻摘要", content=final_summary)
