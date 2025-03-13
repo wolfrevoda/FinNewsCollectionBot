@@ -8,16 +8,10 @@ import time
 import pytz
 import os
 
-# OpenAI API Key
-# openai_client = OpenAI(api_key="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")
+# OpenAI API Key 和 Server酱SendKey
 openai_api_key = os.getenv("OPENAI_API_KEY")
 server_chan_key = os.getenv("SERVER_CHAN_KEY")
 openai_client = OpenAI(api_key=openai_api_key)
-
-
-# Server酱SendKey
-# srz 的 SCT272699TfiTnNWUMAMHjvajyebNd6B8N
-# SERVER_CHAN_KEY = "SCT272745TdQMzTMudpFDrYGFr4XOrBBgL"
 
 # RSS源地址列表
 rss_feeds = {
