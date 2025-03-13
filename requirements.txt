@@ -1,7 +1,7 @@
 openai
 feedparser
 requests
-newspaper
+newspaper3k
 datetime
 time
 pytz
