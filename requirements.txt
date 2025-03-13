@@ -2,7 +2,4 @@ openai
 feedparser
 requests
 newspaper3k
-datetime
-time
 pytz
-os
