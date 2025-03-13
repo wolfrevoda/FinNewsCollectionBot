@@ -20,7 +20,8 @@ jobs:
 
       - name: 📦 安装依赖
         run: |
-          pip install -r .github/workflows/requirements.txt
+          cd $GITHUB_WORKSPACE
+          pip install -r requirements.txt
 
       - name: 🔑 设置环境变量
         run: |
