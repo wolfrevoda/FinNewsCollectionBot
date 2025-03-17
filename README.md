@@ -6,7 +6,7 @@
 
 
 
-**📈 每日财经速递：为专业投资者打造的智能资讯助手**
+**📈 每日财经速递：为专业投资者打造的智能资讯助手**[![📡 RSS 财经新闻自动推送](https://github.com/sgrsun3/FinNewsCollectionBot/actions/workflows/rss-bot.yml/badge.svg)](https://github.com/sgrsun3/FinNewsCollectionBot/actions/workflows/rss-bot.yml)
 
 
 本项目专为券商分析师、基金经理及专业投资人士设计，通过自动抓取国内外权威财经媒体（如华尔街见闻、36氪、东方财富、华尔街日报等）的最新新闻，并调用先进的DeepSeek大模型，每日自动输出精准、深度的市场分析摘要。内容聚焦于中美及全球经济动态、股票市场趋势、政策解读及产业热点，协助专业人士快速掌握市场动向、优化投资决策。
