@@ -84,7 +84,7 @@ def fetch_feed_with_retry(url, retries=3, delay=5):
 # 获取RSS内容（爬取正文但不展示）
 def fetch_rss_articles(rss_feeds, max_articles=10):
     news_data = {}
-    analysis_text = ""  # 用于 AI 分析的内容
+    analysis_text = ""  # 用于AI分析的正文内容
 
     for category, sources in rss_feeds.items():
         category_content = ""
@@ -96,29 +96,27 @@ def fetch_rss_articles(rss_feeds, max_articles=10):
                 continue
             print(f"✅ {source} RSS 获取成功，共 {len(feed.entries)} 条新闻")
 
-            articles = []
-            for entry in feed.entries[:max_articles]:
+            articles = []  # 每个source都需要重新初始化列表
+            for entry in feed.entries[:5]:
                 title = entry.get('title', '无标题')
                 link = entry.get('link', '') or entry.get('guid', '')
                 if not link:
                     print(f"⚠️ {source} 的新闻 '{title}' 没有链接，跳过")
                     continue
-                
-                # 爬取正文（但不展示）
+
+                # 爬取正文用于分析（不展示）
                 article_text = fetch_article_text(link)
-                
-                # 添加到 AI 分析文本
                 analysis_text += f"【{title}】\n{article_text}\n\n"
 
                 print(f"🔹 {source} - {title} 获取成功")
-                articles.append(f"- [{title}]({link})")  # 仅展示标题和链接
-            
+                articles.append(f"- [{title}]({link})")
+
             if articles:
                 category_content += f"### {source}\n" + "\n".join(articles) + "\n\n"
-        
+
         news_data[category] = category_content
-    
-    return news_data, analysis_text  # 返回爬取的新闻标题/链接 & 用于 AI 分析的正文内容
+
+    return news_data, analysis_text
 
 # AI 生成内容摘要（基于爬取的正文）
 def summarize(text):
@@ -138,9 +136,9 @@ def send_to_wechat(title, content):
         data = {"title": title, "desp": content}
         response = requests.post(url, data=data)
         if response.ok:
-            print(f"✅ 推送成功：{key}")
+            print(f"✅ 推送成功: {key}")
         else:
-            print(f"❌ 推送失败：{key}")
+            print(f"❌ 推送失败: {key}, 响应：{response.text}")
 
 
 if __name__ == "__main__":
