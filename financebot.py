@@ -10,7 +10,7 @@ import os
 
 # OpenAI API Key 和 Server酱SendKey
 openai_api_key = os.getenv("OPENAI_API_KEY")
-server_chan_key = os.getenv("SERVER_CHAN_KEY")
+server_chan_keys = os.getenv("SERVER_CHAN_KEYS").split(',')
 openai_client = OpenAI(api_key=openai_api_key, base_url="https://api.deepseek.com/v1")
 
 # RSS源地址列表
@@ -125,36 +125,38 @@ def summarize(text):
     completion = openai_client.chat.completions.create(
         model="deepseek-chat",
         messages=[
-            {"role": "system", "content": "你是一名专业的财经新闻分析师，请根据以下新闻内容，提炼出最核心的财经要点，提供一份2000字以内的清晰摘要。请确保总结精准、逻辑清晰，并突出财经领域的核心趋势。"},
+            {"role": "system", "content": "你是一名专业的财经新闻分析师，请根据以下新闻内容，提炼出最核心的财经要点，提供一份1500字以内的清晰摘要。请确保总结精准、逻辑清晰，并突出财经领域的核心趋势。"},
             {"role": "user", "content": text}
         ]
     )
     return completion.choices[0].message.content.strip()
 
-# 微信推送
 # 发送微信推送
 def send_to_wechat(title, content):
-    requests.post(f"https://sctapi.ftqq.com/{server_chan_key}.send", data={
-        "title": title,
-        "desp": content
-    })
+    for key in server_chan_keys:
+        url = f"https://sctapi.ftqq.com/{key}.send"
+        data = {"title": title, "desp": content}
+        response = requests.post(url, data=data)
+        if response.ok:
+            print(f"✅ 推送成功：{key}")
+        else:
+            print(f"❌ 推送失败：{key}")
 
-# 主程序
+
 if __name__ == "__main__":
     today_str = today_date().strftime("%Y-%m-%d")
-    
-    # 每个网站获取最多 5 篇文章
-    articles, analysis_text = fetch_rss_articles(rss_feeds, max_articles=5) 
 
-    # AI 生成摘要
+    # 每个网站获取最多 5 篇文章
+    articles_data, analysis_text = fetch_rss_articles(rss_feeds, max_articles=5)
+    
+    # AI生成摘要
     summary = summarize(analysis_text)
 
-    # 生成最终消息（仅展示标题和链接）
-    final_summary = f"📅 **{today_str} 财经新闻摘要**\n\n"
-    final_summary += f"✍️ **今日分析总结：**\n{summary}\n\n---\n\n"
-
-    for category, content in articles.items():
+    # 生成仅展示标题和链接的最终消息
+    final_summary = f"📅 **{today_str} 财经新闻摘要**\n\n✍️ **今日分析总结：**\n{summary}\n\n---\n\n"
+    for category, content in articles_data.items():
         if content.strip():
             final_summary += f"## {category}\n{content}\n\n"
-    
+
+    # 推送到多个server酱key
     send_to_wechat(title=f"📌 {today_str} 财经新闻摘要", content=final_summary)
