@@ -139,7 +139,7 @@ def send_to_wechat(title, content):
     for key in server_chan_keys:
         url = f"https://sctapi.ftqq.com/{key}.send"
         data = {"title": title, "desp": content}
-        response = requests.post(url, data=data)
+        response = requests.post(url, data=data, timeout=10)
         if response.ok:
             print(f"✅ 推送成功: {key}")
         else:
