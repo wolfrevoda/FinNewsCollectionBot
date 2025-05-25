@@ -9,14 +9,14 @@ import pytz
 import os
 
 # OpenAI API Key
-openai_api_key = os.getenv("OPENAI_API_KEY")
+openai_api_key = os.getenv("SD_API_KEY")
 # 从环境变量获取 Server酱 SendKeys
 server_chan_keys_env = os.getenv("SERVER_CHAN_KEYS")
 if not server_chan_keys_env:
     raise ValueError("环境变量 SERVER_CHAN_KEYS 未设置，请在Github Actions中设置此变量！")
 server_chan_keys = server_chan_keys_env.split(",")
 
-openai_client = OpenAI(api_key=openai_api_key, base_url="https://api.deepseek.com/v1")
+openai_client = OpenAI(api_key=openai_api_key, base_url="https://api.deepseek.com")
 
 # RSS源地址列表
 rss_feeds = {

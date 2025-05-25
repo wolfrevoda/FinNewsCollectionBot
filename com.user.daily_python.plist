@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.user.daily_python</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/qibatu/.pyenv/shims/python3</string> <!-- 修改为你的 Python 路径 -->
+        <string>/Users/qibatu/Desktop/workspace/github/deepseek/FinNewsCollectionBot/financebot.py</string> <!-- 修改为脚本路径 -->
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>8</integer>  <!-- 8 点 -->
+        <key>Minute</key>
+        <integer>0</integer>  <!-- 0 分 -->
+    </dict>
+    <key>StandardOutPath</key>
+    <string>/Users/qibatu/Desktop/workspace/github/deepseek/FinNewsCollectionBot/log/daily_pyxthon.log</string> <!-- 日志输出路径 -->
+    <key>StandardErrorPath</key>
+    <string>/tmp/daily_python_error.log</string>
+</dict>
+</plist>
