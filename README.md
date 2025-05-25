@@ -1,58 +1,110 @@
-**如果各位金融爸爸用的开心，欢迎打赏联系😊～～**
+# 📈 FinNewsCollectionBot · 每日财经速递
 
+**为专业投资者打造的智能财经资讯助手**
 
+[![📡 RSS 财经新闻自动推送](https://github.com/sgrsun3/FinNewsCollectionBot/actions/workflows/rss-bot.yml/badge.svg)](https://github.com/sgrsun3/FinNewsCollectionBot/actions/workflows/rss-bot.yml)
+![GitHub Stars](https://img.shields.io/github/stars/sgrsun3/FinNewsCollectionBot?style=social)
+![License](https://img.shields.io/github/license/sgrsun3/FinNewsCollectionBot)
 
-<img width="389" alt="image" src="https://github.com/user-attachments/assets/0f8c1057-3ab2-4e87-8c32-5a7726214a5d" />
+---
+## 🧧 支持作者 · 让项目持续进化！
 
+如果本项目对你有帮助，欢迎打赏支持，资助我多喝几杯咖啡 ☕，跑更多模型 💻～
 
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/0f8c1057-3ab2-4e87-8c32-5a7726214a5d" width="280" />
+</div>
 
-**📈 每日财经速递：为专业投资者打造的智能资讯助手**[![📡 RSS 财经新闻自动推送](https://github.com/sgrsun3/FinNewsCollectionBot/actions/workflows/rss-bot.yml/badge.svg)](https://github.com/sgrsun3/FinNewsCollectionBot/actions/workflows/rss-bot.yml)
+- 💬 微信号：`ArkhamKni9ht`
+- 🙌 感谢每一位 Star、Fork 和支持者！
 
+> ✨ 金融爸爸一块钱我不嫌少，一百块我也不嫌多 😊
+---
 
-本项目专为券商分析师、基金经理及专业投资人士设计，通过自动抓取国内外权威财经媒体（如华尔街见闻、36氪、东方财富、华尔街日报等）的最新新闻，并调用先进的DeepSeek大模型，每日自动输出精准、深度的市场分析摘要。内容聚焦于中美及全球经济动态、股票市场趋势、政策解读及产业热点，协助专业人士快速掌握市场动向、优化投资决策。
+## 🎯 项目简介
 
+FinNewsCollectionBot 是一款为券商分析师、基金经理、研究员等专业投资人量身打造的**财经资讯智能摘要助手**。
 
+它自动聚合主流财经媒体的 RSS 信息源，并调用 **DeepSeek 大语言模型**，每天两次推送核心财经摘要，帮助你快速掌握全球市场动态、产业趋势与政策走向。
 
-**🚀 核心功能**
-  
-•	每日两次智能分析：每天早上9:00和下午17:00自动推送
+---
 
-•	多渠道RSS聚合：华尔街见闻、36氪、东方财富、华尔街日报、BBC等主流财经媒体全覆盖
-	
-•	AI深度分析：DeepSeek大语言模型精准提炼核心趋势与关键要点
-	
-•	微信即时推送：整合Server酱服务，一键送达微信
+## 🚀 核心功能
 
+- ⏰ **每日两次自动摘要推送**  
+  每天上午 09:00、下午 17:00 定时运行，生成分析报告
 
-**🤖 技术栈**
-	
-•	Python + Feedparser + Newspaper3k
+- 🌐 **多源财经 RSS 聚合**  
+  支持华尔街见闻、36氪、东方财富、华尔街日报、BBC 等主流财经媒体
 
-•	DeepSeek 大语言模型
+- 🧠 **大模型深度分析**  
+  使用 DeepSeek 大语言模型自动提炼财经新闻的核心内容与趋势判断
 
-•	GitHub Actions 自动化部署
+- 📲 **微信即时推送**  
+  集成 Server 酱服务，生成的财经摘要自动推送至你的微信
 
+---
 
-**🔑 使用方法**
+## 🧑‍💻 技术栈
 
-•	Fork本项目后，配置RSS源及DeepSeek API Key
+- Python
+- feedparser + newspaper3k
+- DeepSeek 大语言模型 API
+- GitHub Actions 自动定时部署
 
-•	配置GitHub Secrets：OPENAI_API_KEY 和 SERVER_CHAN_KEYS
-	•	部署后即可享受自动化财经资讯推送服务
+---
 
-**💬 使用场景**
+## 🔧 快速开始（快速部署）
 
-•	券商、基金公司定期投资简报
-	
-•	金融从业者日常市场监测
-	
-•	快速挖掘市场投资机会
+1. **Fork 本项目**
+2. 配置你的 RSS 源地址和 DeepSeek API Key
+3. 在 GitHub 中设置 Secrets：
+   ```bash
+   OPENAI_API_KEY=your_deepseek_api_key
+   SERVER_CHAN_KEYS=your_serverchan_key
+   ```
+4. 自动触发 GitHub Actions 开始运行
 
+📌 成功部署后，每天两次财经摘要将自动生成并推送到你的微信！
 
-**📌 后续规划**
+---
 
-•	接入更多财经数据源
+## 💼 使用场景
 
-•	优化财经事件智能预测与舆情分析
+- 券商/基金公司/研究所自动生成投资快报
+- 金融从业者日常资讯监测
+- 个人投资者快捷了解宏观政策/产业热点
+- 财经内容运营/财经公众号 AI 辅助创作
 
-✨欢迎Star、Fork和贡献代码，共同打造更精准高效的财经决策工具！
+---
+
+## 📌 示例流程图
+
+```mermaid
+graph TD
+  A[财经RSS源] --> B[抓取文章]
+  B --> C[调用DeepSeek大模型]
+  C --> D[生成财经摘要]
+  D --> E[Server酱推送到微信]
+```
+
+---
+
+## 🛠️ 后续规划
+
+- ✅ 增加更多 RSS 财经数据源
+- ✅ 引入情绪分析与金融事件检测
+- ⏳ 支持多语言财经摘要生成
+- ⏳ 构建简洁前端页面用于非技术用户管理配置
+
+---
+
+## 🤝 欢迎参与
+
+📬 欢迎 Star ⭐ / Fork 🍴 / PR 💡 本项目，一起共建更智能的财经决策工具。
+
+你也可以通过 Issues 留言建议功能，或私信我交流使用体验～
+
+---
+
+© 2024 sgrsun3 | MIT License
